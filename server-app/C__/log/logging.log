@@ -1,0 +1,2 @@
+2021-02-22 05:34:57 INFO  ClientConnectionSTOMP:23 - Starting websocket java application
+2021-02-22 05:34:57 ERROR ClientConnectionSTOMP:39 - Some error has occured while establishing socket connection: org.springframework.web.client.ResourceAccessException: I/O error on GET request for "http://192.168.0.115:8091/ws/info": Connection refused; nested exception is java.net.ConnectException: Connection refused

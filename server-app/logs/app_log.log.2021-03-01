@@ -1,0 +1,41 @@
+2021-03-01 09:11:22 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-03-01 09:11:24 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-03-01 09:11:41 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614570101773
+2021-03-01 09:11:42 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-03-01 09:12:20 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-03-01 09:12:21 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-03-01 09:12:23 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614570143739
+2021-03-01 09:13:26 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-03-01 09:15:21 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614570321038
+2021-03-01 09:15:43 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-03-01 09:15:58 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614570358369
+2021-03-01 09:18:30 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-03-01 09:49:31 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-03-01 09:49:32 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-03-01 09:49:44 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-03-01 09:50:05 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-03-01 09:50:07 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-03-01 09:52:10 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-03-01 09:52:10 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-03-01 09:53:46 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-03-01 09:53:47 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-03-01 09:55:44 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-03-01 09:56:14 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-03-01 09:56:15 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-03-01 09:58:32 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-03-01 09:58:33 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-03-01 09:59:27 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-03-01 09:59:27 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-03-01 09:59:32 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614572972629
+2021-03-01 09:59:54 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-03-01 10:00:17 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614573017774
+2021-03-01 10:00:46 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-03-01 10:00:55 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614573055293
+2021-03-01 10:01:02 ClientConnectionSTOMP [INFO] New client created at index - 1 service - Telnet id - 1614573062233
+2021-03-01 10:01:02 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-03-01 10:01:06 ClientConnectionSTOMP [INFO] Releasing client at index - 1
+2021-03-01 10:01:57 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614573117944
+2021-03-01 10:02:40 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-03-01 10:46:57 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-03-01 11:18:39 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-03-01 11:18:40 ClientConnectionSTOMP [INFO] Socket Connection established

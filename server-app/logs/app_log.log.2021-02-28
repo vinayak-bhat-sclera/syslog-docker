@@ -1,0 +1,128 @@
+2021-02-28 14:21:53 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 14:21:53 ClientConnectionSTOMP [ERROR] Please provide the host for the websocket
+2021-02-28 14:22:22 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 14:22:23 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 14:23:50 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 14:23:51 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 14:24:26 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 14:24:27 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 14:25:40 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 14:25:41 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 14:26:10 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 14:26:10 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 14:26:49 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 14:26:49 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 14:27:00 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614502620857
+2021-02-28 14:27:00 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 14:32:37 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 14:32:38 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 14:32:50 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614502970188
+2021-02-28 14:32:50 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 15:52:40 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 15:52:41 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 15:52:50 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614507770918
+2021-02-28 15:52:56 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 15:53:30 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614507810200
+2021-02-28 15:53:35 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 15:53:48 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614507828329
+2021-02-28 15:54:08 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 15:55:21 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614507921150
+2021-02-28 15:55:36 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 15:56:39 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 15:56:55 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 15:56:56 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 15:57:17 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614508037403
+2021-02-28 15:57:34 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:01:05 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:14:11 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:14:12 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:14:27 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614509067063
+2021-02-28 16:14:44 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:17:43 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:18:45 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:18:46 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:19:00 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614509340528
+2021-02-28 16:19:16 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:25:54 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:26:13 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:26:13 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:26:57 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614509817303
+2021-02-28 16:27:13 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:27:20 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:27:34 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:27:34 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:27:52 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614509872707
+2021-02-28 16:28:08 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:28:49 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:28:49 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:29:04 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614509944038
+2021-02-28 16:29:19 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:29:29 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:29:29 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:29:40 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:29:40 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:29:50 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614509990939
+2021-02-28 16:30:06 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:30:20 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:30:20 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:30:34 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614510034344
+2021-02-28 16:30:50 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:34:29 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:34:44 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:34:45 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:34:58 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614510298084
+2021-02-28 16:35:14 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:35:36 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:35:46 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:35:47 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:36:00 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614510360308
+2021-02-28 16:36:16 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:37:28 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:37:54 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:37:55 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:38:28 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:38:37 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:38:38 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:38:57 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614510537495
+2021-02-28 16:39:13 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:43:19 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:43:36 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:43:37 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:43:59 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614510839354
+2021-02-28 16:44:15 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:44:51 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:45:08 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:45:09 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:45:23 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614510923151
+2021-02-28 16:45:39 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:46:28 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 16:46:43 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:46:44 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:47:00 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614511020633
+2021-02-28 16:47:16 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 16:49:54 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:49:54 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:52:14 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:52:14 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:52:54 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:52:54 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:54:09 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:54:09 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:54:52 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 16:54:53 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 16:55:22 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614511522620
+2021-02-28 16:56:08 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 17:07:13 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614512233713
+2021-02-28 17:08:23 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 17:55:16 ClientConnectionSTOMP [INFO] New client created at index - 0 service - SSH id - 1614515116735
+2021-02-28 17:55:49 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 17:58:52 ConnectionWSHandler [ERROR] Connection lost. Closing application
+2021-02-28 18:16:31 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 18:16:32 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 18:16:40 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614516400812
+2021-02-28 18:17:12 ClientConnectionSTOMP [INFO] Starting websocket java application
+2021-02-28 18:17:13 ClientConnectionSTOMP [INFO] Socket Connection established
+2021-02-28 18:17:24 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614516444334
+2021-02-28 18:18:26 ClientConnectionSTOMP [INFO] Releasing client at index - 0
+2021-02-28 18:19:03 ClientConnectionSTOMP [INFO] New client created at index - 0 service - Telnet id - 1614516543162
+2021-02-28 18:19:45 ClientConnectionSTOMP [INFO] Releasing client at index - 0
