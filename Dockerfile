@@ -180,19 +180,29 @@ RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/nul
 
 # Prepare the app directory and copy rsyslog source
 RUN mkdir /app
-COPY rsyslog /app/rsyslog 
+COPY rsyslog /app/rsyslog
 
 WORKDIR /app
 
 # Configure, build, and install rsyslog
 RUN cd rsyslog \
+    && chmod +x configure \
     && ./configure --enable-omhttp \
     && make \
     && make install
 
-# Copy configuration files
+# Copy main rsyslog configuration file
 COPY rsyslog.conf /etc/rsyslog.conf
+# Copy 10-sclera.conf (for omhttp)
 COPY 10-sclera.conf /etc/rsyslog.d/10-sclera.conf
+
+# Create the directory for rsyslog.d if it doesn't exist
+RUN mkdir -p /etc/rsyslog.d/
+
+# Copy the script that generates the rsyslog forwarding configuration dynamically
+COPY generate_rsyslog_forwarding_conf.sh /usr/local/bin/
+# Make the script executable
+RUN chmod +x /usr/local/bin/generate_rsyslog_forwarding_conf.sh
 
 # Expose UDP port 514
 EXPOSE 514/udp
