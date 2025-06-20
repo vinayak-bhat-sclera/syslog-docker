@@ -12,11 +12,14 @@ mkdir -p /etc/rsyslog.d/
 ./monitor -i "$NETWORK_ADDRESS" -m -C -D -v "$AGENT_ID" -n "$DOCKER_ID" &
 /bin/bash docker_app_runner.sh &
 /bin/bash firewall_rules.sh &
-/etc/init.d/dbus start
-/etc/init.d/avahi-daemon start
+/etc/init.d/dbus start &
+/etc/init.d/avahi-daemon start &
 
 # Start rsyslogd in the background.
 rsyslogd -n -f /etc/rsyslog.conf &
+RSYSLOG_PID=$! # Capture the PID of the rsyslogd process
+
+echo "Rsyslogd started with PID: $RSYSLOG_PID"
 
 # Your existing Java application command
 java -jar sclera_docker.jar
