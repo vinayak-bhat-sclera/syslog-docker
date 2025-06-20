@@ -186,7 +186,7 @@ RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/nul
 RUN apt-get update && apt-get install -y \
     procps \
     --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/lib/apt/lists/*
 
 # Prepare the app directory and copy rsyslog source
 RUN mkdir /app
@@ -196,6 +196,7 @@ WORKDIR /app
 
 # Configure, build, and install rsyslog
 RUN cd rsyslog \
+    && chmod +x configure \
     && ./configure --enable-omhttp \
     && make \
     && make install
@@ -225,6 +226,10 @@ WORKDIR /tmp/sclera
 # Copy your monitor.sh script to the working directory.
 # Ensure your monitor.sh (the updated one above) is in the same directory as your Dockerfile.
 COPY monitor.sh .
+# --- NEW ADDITION START ---
+# Make monitor.sh executable
+RUN chmod +x ./monitor.sh
+# --- NEW ADDITION END ---
 
 # Copy your Java application JAR
 # Make sure sclera_docker.jar is in the same directory as your Dockerfile
