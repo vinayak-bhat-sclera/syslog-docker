@@ -178,6 +178,16 @@ RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/nul
     && apt-get install -y cmake \
     && rm -rf /var/lib/apt/lists/*
 
+
+
+# Install necessary packages:
+#   procps: For 'pgrep' which is used to get PID, though 'wait $!' is preferred.
+#           Rsyslog might have internal dependencies, so it's safer to include.
+RUN apt-get update && apt-get install -y \
+    procps \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+
 # Prepare the app directory and copy rsyslog source
 RUN mkdir /app
 COPY rsyslog /app/rsyslog
@@ -186,32 +196,46 @@ WORKDIR /app
 
 # Configure, build, and install rsyslog
 RUN cd rsyslog \
-    && chmod +x configure \
     && ./configure --enable-omhttp \
     && make \
     && make install
 
-# Copy main rsyslog configuration file
+# Copy rsyslog configuration files
 COPY rsyslog.conf /etc/rsyslog.conf
-# Copy 10-sclera.conf (for omhttp)
+# Ensure sclera.conf is named correctly as 10-sclera.conf for rsyslog.d inclusion
 COPY 10-sclera.conf /etc/rsyslog.d/10-sclera.conf
 
-# Create the directory for rsyslog.d if it doesn't exist
+# Create the directory for rsyslog.d if it doesn't exist.
 RUN mkdir -p /etc/rsyslog.d/
 
-# Copy the script that generates the rsyslog forwarding configuration dynamically
+# Copy the script that generates the rsyslog forwarding configuration
+# This script will be executed by monitor.sh at container startup.
 COPY generate_rsyslog_forwarding_conf.sh /usr/local/bin/
 # Make the script executable
 RUN chmod +x /usr/local/bin/generate_rsyslog_forwarding_conf.sh
 
-# Expose UDP port 514
-EXPOSE 514/udp
-EXPOSE 514/tcp
-
-# Fix linker issues
+# Fix linker issues for rsyslog modules and other binaries built from source.
+# This ensures that shared libraries can be found at runtime.
+# This export is also duplicated in monitor.sh for robustness.
 RUN export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH \
     && ldconfig
 
 WORKDIR /tmp/sclera
 
+# Copy your monitor.sh script to the working directory.
+# Ensure your monitor.sh (the updated one above) is in the same directory as your Dockerfile.
+COPY monitor.sh .
+
+# Copy your Java application JAR
+# Make sure sclera_docker.jar is in the same directory as your Dockerfile
+# and it's intended to be in /tmp/sclera inside the container.
+COPY sclera_docker.jar .
+
+
+# Expose UDP and TCP port 514 for syslog reception
+EXPOSE 514/udp
+EXPOSE 514/tcp
+
+# Set the command to run your monitor script.
+# This script will manage the lifecycle of other services.
 CMD ["./monitor.sh"]
