@@ -178,6 +178,11 @@ RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/nul
     && apt-get install -y cmake \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y \
+    procps \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
 # Prepare the app directory and copy rsyslog source
 RUN mkdir /app
 COPY rsyslog /app/rsyslog
@@ -191,18 +196,24 @@ RUN cd rsyslog \
     && make \
     && make install
 
-# Copy main rsyslog configuration file
+# Copy configuration files
 COPY rsyslog.conf /etc/rsyslog.conf
-# Copy 10-sclera.conf (for omhttp)
+# Ensure sclera.conf is named correctly as 10-sclera.conf for rsyslog.d inclusion
 COPY 10-sclera.conf /etc/rsyslog.d/10-sclera.conf
 
-# Create the directory for rsyslog.d if it doesn't exist
+# --- NEW ADDITIONS START ---
+
+# Create the directory for rsyslog.d if it doesn't exist.
 RUN mkdir -p /etc/rsyslog.d/
 
-# Copy the script that generates the rsyslog forwarding configuration dynamically
+# Copy the script that generates the rsyslog forwarding configuration (now hardcoded)
 COPY generate_rsyslog_forwarding_conf.sh /usr/local/bin/
 # Make the script executable
 RUN chmod +x /usr/local/bin/generate_rsyslog_forwarding_conf.sh
+
+# Removed: rsyslog_reloader.sh and inotify-tools as they are not needed for hardcoded IP.
+
+# --- NEW ADDITIONS END ---
 
 # Expose UDP port 514
 EXPOSE 514/udp
@@ -214,4 +225,8 @@ RUN export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH \
 
 WORKDIR /tmp/sclera
 
+# Copy your monitor.sh script to the working directory.
+COPY monitor.sh .
+
+# Set the command to run your monitor script
 CMD ["./monitor.sh"]
