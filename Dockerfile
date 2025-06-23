@@ -1,13 +1,17 @@
 FROM ubuntu:20.04
 
-ENV NAME NETWORK_ADDRESS
-ENV NAME AGENT_ID
-ENV NAME MASTER_VENDOR
-ENV NAME SYSTEM_TYPE
+# Define environment variables with proper syntax if they are meant to be used.
+# If these are meant to be injected at runtime, remove these ENV lines from Dockerfile.
+# Assuming they are placeholders for values set at runtime or by build arguments.
+# ENV NETWORK_ADDRESS
+# ENV AGENT_ID
+# ENV MASTER_VENDOR
+# ENV SYSTEM_TYPE
 
 RUN mkdir /tmp/sclera
 
 # Install core dependencies including dos2unix and procps
+# Ensure all lines ending with '\' for continuation, and '--no-install-recommends' is at the end of the list.
 RUN apt-get update && apt-get install -y \
     make \
     libmongoc-1.0-0 \
@@ -30,8 +34,43 @@ RUN apt-get update && apt-get install -y \
     libmxml-dev \
     libpcap-dev \
     procps \
-    dos2unix \ # <--- NEW: Install dos2unix
-    --no-install-recommends \
+    dos2unix \
+    --no-install-recommends \ # <--- FIX: This is now correctly associated with apt-get install
+    && rm -rf /var/lib/apt/lists/*
+
+# Install dependencies required to add repositories and build from source
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    gnupg \
+    wget \
+    build-essential \
+    autoconf \
+    automake \
+    libtool \
+    zlib1g-dev \
+    uuid-dev \
+    pkg-config \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install libestr-dev and libgcrypt20-dev
+RUN apt-get update && apt-get install -y \
+    libestr-dev \
+    libgcrypt20-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install libfastjson from source
+RUN wget https://github.com/rsyslog/libfastjson/archive/refs/tags/v0.99.9.tar.gz \
+    && tar -xzf v0.99.9.tar.gz \
+    && cd libfastjson-0.99.9 \
+    && mkdir -p m4 \
+    && libtoolize --force --copy \
+    && cp ../ltmain.sh ./ltmain.sh || true \
+    && autoreconf -fvi \
+    && ./configure \
+    && make \
+    && make install \
+    && cd睪 # <--- FIX: This is now correctly associated with apt-get install
     && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies required to add repositories and build from source
@@ -70,6 +109,12 @@ RUN wget https://github.com/rsyslog/libfastjson/archive/refs/tags/v0.99.9.tar.gz
     && rm -rf libfastjson-0.99.9 v0.99.9.tar.gz
 
 # Install a newer version of CMake from Kitware APT repository
+RUN apt-get update && apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - \
     && apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' \
     && apt-get update \
@@ -107,9 +152,9 @@ RUN dos2unix monitor
 COPY docker_app.jar /tmp/sclera
 COPY sclera_docker.jar /tmp/sclera
 COPY monitor.sh . # Copy to current WORKDIR /tmp/sclera
-RUN dos2unix monitor.sh # <--- NEW: Convert line endings for monitor.sh
+RUN dos2unix monitor.sh # Convert line endings for monitor.sh
 COPY docker_app_runner.sh /tmp/sclera
-RUN dos2unix docker_app_runner.sh # <--- NEW: Convert line endings
+RUN dos2unix docker_app_runner.sh # Convert line endings
 COPY portscan /tmp/sclera
 RUN dos2unix portscan
 COPY tcptunnel-master /tmp/sclera/tcptunnel
@@ -121,7 +166,7 @@ COPY dummy /tmp/sclera/
 COPY internetMonitor /tmp/sclera/
 RUN dos2unix internetMonitor
 COPY firewall_rules.sh /tmp/sclera
-RUN dos2unix firewall_rules.sh # <--- NEW: Convert line endings
+RUN dos2unix firewall_rules.sh # Convert line endings
 
 # Ensure chmod commands are after dos2unix
 RUN chmod 777 snmp_sweep \
@@ -147,7 +192,7 @@ ADD model_scripts /tmp/sclera/model_scripts
 
 # Copy generate_rsyslog_forwarding_conf.sh and convert its line endings
 COPY generate_rsyslog_forwarding_conf.sh /usr/local/bin/
-RUN dos2unix /usr/local/bin/generate_rsyslog_forwarding_conf.sh # <--- NEW: Convert line endings
+RUN dos2unix /usr/local/bin/generate_rsyslog_forwarding_conf.sh
 RUN chmod +x /usr/local/bin/generate_rsyslog_forwarding_conf.sh
 
 RUN cd tcptunnel && ./configure && make && make install; exit 0
