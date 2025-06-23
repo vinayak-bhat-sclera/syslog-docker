@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-ENV NAME NETWORK_ADDRESS    
+ENV NAME NETWORK_ADDRESS
 ENV NAME AGENT_ID
 ENV NAME MASTER_VENDOR
 ENV NAME SYSTEM_TYPE
@@ -99,7 +99,7 @@ RUN chmod 777 monitor.sh
 
 RUN chmod 777 docker_app.jar
 
-RUN chmod 777 docker_app_runner.sh 
+RUN chmod 777 docker_app_runner.sh
 
 RUN chmod 777 portscan
 
@@ -157,7 +157,7 @@ RUN apt-get update && apt-get install -y \
     && cd libfastjson-0.99.9 \
     && mkdir -p m4 \
     && libtoolize --force --copy \
-    && cp ../ltmain.sh ./ltmain.sh || true \ 
+    && cp ../ltmain.sh ./ltmain.sh || true \
     && autoreconf -fvi \
     && ./configure \
     && make \
@@ -178,15 +178,7 @@ RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/nul
     && apt-get install -y cmake \
     && rm -rf /var/lib/apt/lists/*
 
-
-
-# Install necessary packages:
-#   procps: For 'pgrep' which is used to get PID, though 'wait $!' is preferred.
-#           Rsyslog might have internal dependencies, so it's safer to include.
-RUN apt-get update && apt-get install -y \
-    procps \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+# Removed redundant package install section here from previous file
 
 # Prepare the app directory and copy rsyslog source
 RUN mkdir /app
@@ -199,7 +191,8 @@ RUN cd rsyslog \
     && chmod +x configure \
     && ./configure --enable-omhttp \
     && make \
-    && make install
+    && make install \
+    && ls -l /usr/local/lib/rsyslog/ # <--- ADDED: List contents to verify modules
 
 # Copy rsyslog configuration files
 COPY rsyslog.conf /etc/rsyslog.conf
@@ -224,23 +217,16 @@ RUN export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH \
 WORKDIR /tmp/sclera
 
 # Copy your monitor.sh script to the working directory.
-# Ensure your monitor.sh (the updated one above) is in the same directory as your Dockerfile.
 COPY monitor.sh .
-# --- NEW ADDITION START ---
 # Make monitor.sh executable
 RUN chmod +x ./monitor.sh
-# --- NEW ADDITION END ---
 
 # Copy your Java application JAR
-# Make sure sclera_docker.jar is in the same directory as your Dockerfile
-# and it's intended to be in /tmp/sclera inside the container.
 COPY sclera_docker.jar .
-
 
 # Expose UDP and TCP port 514 for syslog reception
 EXPOSE 514/udp
 EXPOSE 514/tcp
 
 # Set the command to run your monitor script.
-# This script will manage the lifecycle of other services.
 CMD ["./monitor.sh"]
