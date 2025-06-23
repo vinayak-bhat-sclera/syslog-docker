@@ -51,13 +51,13 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install libestr-dev and libgcrypt20-dev (ensure this block is NOT duplicated)
+# Install libestr-dev and libgcrypt20-dev
 RUN apt-get update && apt-get install -y \
     libestr-dev \
     libgcrypt20-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install libfastjson from source (ensure this block is NOT duplicated)
+# Install libfastjson from source
 RUN wget https://github.com/rsyslog/libfastjson/archive/refs/tags/v0.99.9.tar.gz \
     && tar -xzf v0.99.9.tar.gz \
     && cd libfastjson-0.99.9 \
@@ -114,7 +114,12 @@ COPY docker_app_runner.sh /tmp/sclera
 RUN dos2unix docker_app_runner.sh # Convert line endings
 COPY portscan /tmp/sclera
 RUN dos2unix portscan
+
+# Process tcptunnel: Copy, configure, make, install, and clean up
 COPY tcptunnel-master /tmp/sclera/tcptunnel
+RUN cd tcptunnel && ./configure && make && make install; exit 0 # Moved here from end of Dockerfile
+RUN rm -R tcptunnel # Moved here from end of Dockerfile
+
 COPY snmpwalk.jar /tmp/sclera/
 COPY portcheck /tmp/sclera/
 RUN dos2unix portcheck
@@ -151,14 +156,6 @@ ADD model_scripts /tmp/sclera/model_scripts
 COPY generate_rsyslog_forwarding_conf.sh /usr/local/bin/
 RUN dos2unix /usr/local/bin/generate_rsyslog_forwarding_conf.sh
 RUN chmod +x /usr/local/bin/generate_rsyslog_forwarding_conf.sh
-
-# NOTE: These tcptunnel commands were duplicated in your original Dockerfile.
-# They should ideally be placed right after the 'COPY tcptunnel-master' line
-# in your Dockerfile to ensure proper sequence and prevent redundancy.
-# However, as per your instruction not to change anything else, I'm leaving them here
-# but highlighting their redundant nature if they are also elsewhere.
-RUN cd tcptunnel && ./configure && make && make install; exit 0
-RUN rm -R tcptunnel
 
 # Copy rsyslog configuration files
 COPY rsyslog.conf /etc/rsyslog.conf

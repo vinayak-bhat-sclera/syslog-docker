@@ -4,11 +4,6 @@
 # Crucially, it keeps the container alive as long as the rsyslogd daemon is running,
 # even if other applications (like the Java app) exit.
 
-# --- IMPORTANT: Set LD_LIBRARY_PATH for rsyslog to find its modules ---
-# Re-export right before rsyslogd for robustness, in case previous exports are lost.
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-echo "LD_LIBRARY_PATH set to: $LD_LIBRARY_PATH"
-
 # Ensure the directory for the generated rsyslog configuration exists
 mkdir -p /etc/rsyslog.d/
 
@@ -35,6 +30,11 @@ echo "Starting dbus..."
 # It's commented out here to prevent "Wrong IP address!!" errors and simplify startup.
 # echo "Starting avahi-daemon..."
 # /etc/init.d/avahi-daemon start & # Commented out
+
+# --- IMPORTANT: Set LD_LIBRARY_PATH for rsyslog to find its modules ---
+# Re-export right before rsyslogd for robustness, in case previous exports are lost.
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+echo "LD_LIBRARY_PATH set to: $LD_LIBRARY_PATH"
 
 # Start rsyslogd in the background.
 # This is the primary process we want to keep running to ensure logs are forwarded.
