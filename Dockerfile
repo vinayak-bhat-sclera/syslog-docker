@@ -1,7 +1,5 @@
 FROM ubuntu:20.04
 
-# These ENV lines are kept as per your request,
-# but note that standard Docker ENV syntax is 'KEY=VALUE'.
 ENV NAME NETWORK_ADDRESS
 ENV NAME AGENT_ID
 ENV NAME MASTER_VENDOR
@@ -9,128 +7,74 @@ ENV NAME SYSTEM_TYPE
 
 RUN mkdir /tmp/sclera
 
-# Install core dependencies including dos2unix and procps
-RUN apt-get update && apt-get install -y \
-    make \
-    libmongoc-1.0-0 \
-    libcjson-dev \
-    libcurl4-openssl-dev \
-    curl \
-    default-jre \
-    telnetd \
-    nodejs \
-    net-tools \
-    iproute2 \
-    iputils-ping \
-    traceroute \
-    dnsutils \
-    lsof \
-    snmp \
-    samba-common-bin \
-    avahi-utils \
-    iptables \
-    libmxml-dev \
-    libpcap-dev \
-    procps \
-    dos2unix \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install dependencies required to add repositories and build from source
-RUN apt-get update && apt-get install -y \
-    software-properties-common \
-    gnupg \
-    wget \
-    build-essential \
-    autoconf \
-    automake \
-    libtool \
-    zlib1g-dev \
-    uuid-dev \
-    pkg-config \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install libestr-dev and libgcrypt20-dev
-RUN apt-get update && apt-get install -y \
-    libestr-dev \
-    libgcrypt20-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install libfastjson from source
-RUN wget https://github.com/rsyslog/libfastjson/archive/refs/tags/v0.99.9.tar.gz \
-    && tar -xzf v0.99.9.tar.gz \
-    && cd libfastjson-0.99.9 \
-    && mkdir -p m4 \
-    && libtoolize --force --copy \
-    && cp ../ltmain.sh ./ltmain.sh || true \
-    && autoreconf -fvi \
-    && ./configure \
-    && make \
-    && make install \
-    && cd .. \
-    && rm -rf libfastjson-0.99.9 v0.99.9.tar.gz
-
-# Install a newer version of CMake from Kitware APT repository
-RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - \
-    && apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' \
-    && apt-get update \
-    && apt-get install -y cmake \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy rsyslog source and build
-RUN mkdir /app
-COPY rsyslog /app/rsyslog
-
-WORKDIR /app
-
-# Configure, build, and install rsyslog
-RUN cd rsyslog \
-    && chmod +x configure \
-    && ./configure --enable-omhttp \
-    && make \
-    && make install \
-    && ls -l /usr/local/lib/rsyslog/ # Verifies rsyslog modules are installed (e.g., omfwd.so)
-
-# Fix linker issues for rsyslog modules and other binaries built from source.
-RUN export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH \
-    && ldconfig
-
-# Set working directory for your application files
-WORKDIR /tmp/sclera
-
-# Copy application files and convert their line endings
 COPY snmp_sweep /tmp/sclera
-RUN dos2unix snmp_sweep
+RUN dos2unix snmp_sweep # Convert line endings
 COPY udp_snmp /tmp/sclera
-RUN dos2unix udp_snmp
+RUN dos2unix udp_snmp # Convert line endings
 COPY monitor /tmp/sclera
-RUN dos2unix monitor
+RUN dos2unix monitor # Convert line endings
 COPY docker_app.jar /tmp/sclera
 COPY sclera_docker.jar /tmp/sclera
-COPY monitor.sh . # Copy to current WORKDIR /tmp/sclera
-RUN dos2unix monitor.sh # Convert line endings for monitor.sh
+COPY monitor.sh /tmp/sclera # This line is kept exactly as you had it
+RUN dos2unix /tmp/sclera/monitor.sh # Convert line endings for monitor.sh
 COPY docker_app_runner.sh /tmp/sclera
 RUN dos2unix docker_app_runner.sh # Convert line endings
 COPY portscan /tmp/sclera
-RUN dos2unix portscan
+RUN dos2unix portscan # Convert line endings
 
-# Process tcptunnel: Copy, configure, make, install, and clean up
+# tcptunnel section: Copy, configure, build, install, and clean up
 COPY tcptunnel-master /tmp/sclera/tcptunnel
-RUN cd tcptunnel && ./configure && make && make install; exit 0 # Moved here from end of Dockerfile
-RUN rm -R tcptunnel # Moved here from end of Dockerfile
+RUN cd /tmp/sclera/tcptunnel && ./configure && make && make install; exit 0
+RUN rm -R /tmp/sclera/tcptunnel
 
 COPY snmpwalk.jar /tmp/sclera/
 COPY portcheck /tmp/sclera/
-RUN dos2unix portcheck
+RUN dos2unix portcheck # Convert line endings
 COPY virtual /tmp/sclera/
 COPY dummy /tmp/sclera/
 COPY internetMonitor /tmp/sclera/
-RUN dos2unix internetMonitor
-COPY firewall_rules.sh /tmp/sclera
+RUN dos2unix internetMonitor # Convert line endings
+COPY firewall_rules.sh /tmp/sclera/
 RUN dos2unix firewall_rules.sh # Convert line endings
 
-# Ensure chmod commands are after dos2unix
+RUN mkdir /tmp/sclera/model_scripts
+ADD model_scripts /tmp/sclera/model_scripts
+# If model_scripts contain shell scripts, you might need to run dos2unix recursively:
+# RUN find /tmp/sclera/model_scripts -type f -name "*.sh" -exec dos2unix {} + || true
+
+COPY speedtest /usr/bin
+
+# Set WORKDIR after copying all /tmp/sclera content to ensure context is correct for following RUNs
+WORKDIR /tmp/sclera
+
+RUN apt-get update
+
+RUN apt-get -y install make
+RUN apt-get -y install libmongoc-1.0-0
+RUN apt-get -y install libcjson-dev
+RUN apt-get -y install libcurl4-openssl-dev
+RUN apt-get -y install curl
+RUN apt-get -y install default-jre
+RUN apt-get install telnetd -y
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get install -y nodejs
+RUN apt-get -y install net-tools
+RUN apt-get -y install iproute2
+RUN apt-get -y install iputils-ping
+RUN apt-get -y install traceroute
+RUN apt-get -y install dnsutils
+RUN apt-get -y install lsof
+RUN apt-get -y install snmp
+RUN apt-get -y install samba-common-bin
+RUN apt-get -y install avahi-utils
+RUN apt-get install -y iptables
+RUN apt-get install -y libmxml-dev
+RUN apt-get install -y libpcap-dev
+
+# New: Install dos2unix here (or earlier, but ensuring it's available before script conversions)
+RUN apt-get update && apt-get install -y dos2unix --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN chmod 777 snmp_sweep \
     && chmod 777 udp_snmp \
     && chmod 777 monitor \
@@ -144,29 +88,105 @@ RUN chmod 777 snmp_sweep \
     && chmod 777 dummy \
     && chmod 777 /usr/bin/speedtest \
     && chmod 777 internetMonitor \
+    && chmod 777 -R model_scripts \
     && chmod 777 firewall_rules.sh
 
-# Special handling for model_scripts directory (if it contains scripts)
-RUN mkdir /tmp/sclera/model_scripts
-ADD model_scripts /tmp/sclera/model_scripts
-# If model_scripts contain shell scripts, you might need to run dos2unix recursively:
-# RUN find /tmp/sclera/model_scripts -type f -name "*.sh" -exec dos2unix {} + || true
+# Install dependencies required to add repositories and build from source
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    gnupg \
+    wget \
+    build-essential \
+    autoconf \
+    automake \
+    libtool \
+    zlib1g-dev \
+    uuid-dev \
+    pkg-config \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy generate_rsyslog_forwarding_conf.sh and convert its line endings
-COPY generate_rsyslog_forwarding_conf.sh /usr/local/bin/
-RUN dos2unix /usr/local/bin/generate_rsyslog_forwarding_conf.sh
-RUN chmod +x /usr/local/bin/generate_rsyslog_forwarding_conf.sh
+# Install libestr-dev and libgcrypt20-dev which are available in the default repositories
+RUN apt-get update && apt-get install -y \
+    libestr-dev \
+    libgcrypt20-dev \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy rsyslog configuration files
+# Install libfastjson from source
+RUN apt-get update && apt-get install -y \
+    autoconf \
+    automake \
+    libtool \
+    pkg-config \
+    m4 \
+    --no-install-recommends \
+    && wget https://github.com/rsyslog/libfastjson/archive/refs/tags/v0.99.9.tar.gz \
+    && tar -xzf v0.99.9.tar.gz \
+    && cd libfastjson-0.99.9 \
+    && mkdir -p m4 \
+    && libtoolize --force --copy \
+    && cp ../ltmain.sh ./ltmain.sh || true \
+    && autoreconf -fvi \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf libfastjson-0.99.9 v0.99.9.tar.gz
+
+# Install a newer version of CMake from Kitware APT repository
+RUN apt-get update && apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    gnupg \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - \
+    && apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' \
+    && apt-get update \
+    && apt-get install -y cmake \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+# Prepare the app directory and copy rsyslog source
+RUN mkdir /app
+COPY rsyslog /app/rsyslog
+
+WORKDIR /app
+
+# Configure, build, and install rsyslog
+RUN cd rsyslog \
+    && chmod +x configure \
+    && ./configure --enable-omhttp \
+    && make \
+    && make install \
+    && ls -l /usr/local/lib/rsyslog/ # Verifies rsyslog modules are installed (e.g., omfwd.so)
+
+# Copy main rsyslog configuration file
 COPY rsyslog.conf /etc/rsyslog.conf
+# Copy 10-sclera.conf (for omhttp)
 COPY 10-sclera.conf /etc/rsyslog.d/10-sclera.conf
 
-# Create the directory for rsyslog.d if it doesn't exist.
+# Create the directory for rsyslog.d if it doesn't exist
 RUN mkdir -p /etc/rsyslog.d/
 
-# Expose UDP and TCP port 514 for syslog reception
+# Copy the script that generates the rsyslog forwarding configuration dynamically
+COPY generate_rsyslog_forwarding_conf.sh /usr/local/bin/
+# Make the script executable
+RUN dos2unix /usr/local/bin/generate_rsyslog_forwarding_conf.sh # Convert line endings
+RUN chmod +x /usr/local/bin/generate_rsyslog_forwarding_conf.sh
+
+# Expose UDP port 514
 EXPOSE 514/udp
 EXPOSE 514/tcp
 
-# Set the command to run your monitor script.
+# Fix linker issues
+RUN export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH \
+    && ldconfig
+
+WORKDIR /tmp/sclera
+
 CMD ["./monitor.sh"]
