@@ -1,27 +1,28 @@
-#!/bin/sh
-# This is a comment!
+#!/bin/bash
+set -e
 
-# Ensure the directory for the generated config exists
-mkdir -p /etc/rsyslog.d/
+# Generate rsyslog forwarding config
+/tmp/sclera/generate_rsyslog_forwarding_conf.sh
 
-# Initial generation of rsyslog forwarding configuration.
-# This script now uses a hardcoded IP address.
-/bin/bash /usr/local/bin/generate_rsyslog_forwarding_conf.sh
+echo "Syslog forwarding config:"
+cat /etc/rsyslog.d/forwarding.conf || echo "forwarding.conf not found"
 
-# Your existing commands
-./monitor -i "$NETWORK_ADDRESS" -m -C -D -v "$AGENT_ID" -n "$DOCKER_ID" &
-/bin/bash docker_app_runner.sh &
-/bin/bash firewall_rules.sh &
-/etc/init.d/dbus start
-/etc/init.d/avahi-daemon start
+# Remove stale rsyslogd PID file if it exists
+if [ -f /var/run/rsyslogd.pid ]; then
+  echo "Removing stale rsyslogd PID file"
+  rm -f /var/run/rsyslogd.pid
+fi
 
-# Start rsyslogd in the background.
-rsyslogd -n -f /etc/rsyslog.conf &
+# Start required services
+service dbus start
+service avahi-daemon start
 
-# Your existing Java application command
-java -jar sclera_docker.jar
+# Start rsyslog daemon
+rsyslogd
 
-# You might want to add a `wait` command here if your Java app is not the main process
-# and you want the container to stay alive as long as rsyslogd is running.
-# For example: wait $! (if rsyslogd is the last background process)
-# Or, if the Java app is the primary long-running process, this is fine as is.
+# Print environment variables (for debugging)
+echo "Environment variables:"
+printenv
+
+# Start Spring Boot application with debug enabled
+java -jar /tmp/sclera/sclera_docker.jar --debug
