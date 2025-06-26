@@ -1,3 +1,12 @@
+1. unzip dockerfile.zip
+2. cd dockerfile
+3. docker buildx build -t sclera_image .
+4. docker images   [see if sclera_image is created]
+5. curl -X "POST" http://localhost:8888/api/settings/createNetworks
+6. docker ps   [ see if host, guest and hvac containers are running ]
+7. if in case you want to build the docker image again, delete the network first
+8. curl -X "DELETE" http://localhost:8888/api/settings/deleteNetworks
+
 final docker run command:
 docker run -dit --name sclera-syslog-forwarder --env-file ./rsyslog.env -v "$(pwd)/rsyslog.env:/etc/rsyslog.env" --network host sclera_image
 1) cat -v rsyslog.env
