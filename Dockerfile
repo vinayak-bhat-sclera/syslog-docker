@@ -26,10 +26,7 @@ RUN mkdir /tmp/sclera/model_scripts
 ADD model_scripts /tmp/sclera/model_scripts
 COPY speedtest /usr/bin
 
-
-
 RUN chmod +x /tmp/sclera/internetMonitor
-
 
 WORKDIR /tmp/sclera
 
@@ -55,6 +52,9 @@ RUN apt-get -y install avahi-utils
 RUN apt-get install -y iptables
 RUN apt-get install -y libmxml-dev
 RUN apt-get install -y libpcap-dev
+
+# Install socat
+RUN apt-get -y install socat
 
 RUN chmod 777 snmp_sweep
 RUN chmod 777 udp_snmp
@@ -114,7 +114,11 @@ RUN apt-get update && apt-get install -y \
     && ./configure \
     && make \
     && make install \
-    && cd .. \
+    && cd prolifer \
+    && make clean \
+    && make \
+    && make install \
+    && cd ../.. \
     && rm -rf libfastjson-0.99.9 v0.99.9.tar.gz
 
 # Install a newer version of CMake from Kitware APT repository
@@ -139,22 +143,22 @@ WORKDIR /app
 # Configure, build, and install rsyslog
 RUN cd rsyslog \
     && chmod +x configure \
-    && ./configure --enable-omhttp \
+    && ./configure \
     && make \
     && make install
 
 # Copy configuration files
-COPY generate_rsyslog_forwarding_conf.sh /tmp/sclera/
+# Removed: COPY generate_rsyslog_forwarding_conf.sh /tmp/sclera/
+# Removed: COPY rsyslog.env /etc/rsyslog.env
 COPY rsyslog.conf /etc/rsyslog.conf
-COPY rsyslog.env /etc/rsyslog.env
-COPY 10-sclera.conf /etc/rsyslog.d/10-sclera.conf
+#COPY 10-sclera.conf /etc/rsyslog.d/10-sclera.conf
 
 # Optional: You can set environment here if needed
 # ENV FORWARDING_SERVER_1=10.2.31.30
 
-RUN chmod +x /tmp/sclera/generate_rsyslog_forwarding_conf.sh
+# Removed: RUN chmod +x /tmp/sclera/generate_rsyslog_forwarding_conf.sh
 
-# Expose UDP and TCP for syslog
+# Expose UDP and TCP for syslog (router will send to 514)
 EXPOSE 514/udp
 EXPOSE 514/tcp
 
